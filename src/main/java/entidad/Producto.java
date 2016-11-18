@@ -1,8 +1,10 @@
 package entidad;
 
 public class Producto {
+    
     private String nombre;
     private double precio;
+    private Integer cantidad = 0 ;
 
     public Producto(String nombre, double precio) {
         this.nombre = nombre;
@@ -24,6 +26,12 @@ public class Producto {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
-    
-    
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
 }

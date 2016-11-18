@@ -3,10 +3,9 @@
     Created on : 02-nov-2016, 9:24:36
     Author     : alumno
 --%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Producto"%>
-<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="Carrito" scope="session" class="entidad.Producto" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,15 +14,16 @@
     </head>
     <body>
         <h2>Compra de productos:</h2>
-        <form method="POST" action="">
+        <form method="POST" action="CarritoServlet">
             <select id="selector__producto" style="height:1.6em;">
                 <%
-                    HashMap listaAuxiliar = (HashMap) request.getSession().getAttribute("listaProductos");
-                %>
-                <option value="producto1" SELECTED></option>
+                    ArrayList<Producto> listaAuxiliar = (ArrayList) request.getSession().getAttribute("listaProductos");
+                    for (int i = 0; i < listaAuxiliar.size(); i++) {%>
+                    <option value=p<%=i%>><%=listaAuxiliar.get(i).getNombre()%></option>
+                <% } %>
             </select>
             <input type="submit" value="Añadir a Carrito">
         </form>
-        <button action="" >Finalizar Compra</button>
+        <button style="margin-top: 10px">Finalizar Compra</button>
     </body>
 </html>

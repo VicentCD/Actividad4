@@ -7,8 +7,7 @@ package servlets;
 
 import entidad.Producto;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,28 +28,34 @@ public class CarritoServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private HashMap<String, Producto> listaDeProductos = new HashMap();
+    ArrayList<Producto> listaProductos = new ArrayList();
 
     @Override
     public void init()
             throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        listaDeProductos.put("play4", new Producto("Play Station 4", 299.95));
-        listaDeProductos.put("play4", new Producto("XBOX One", 320));
-        listaDeProductos.put("play4", new Producto("Wii U", 249.95));
-        listaDeProductos.put("play4", new Producto("PC Master Race", 800));
-        listaDeProductos.put("play4", new Producto("Play Station  Pro", 399.95));
-        listaDeProductos.put("play4", new Producto("XBOX Scorpio", 599.95));
-        listaDeProductos.put("play4", new Producto("Play Station VR", 399.95));
+        listaProductos.add(new Producto("Play Station 4", 299.95));
+        listaProductos.add(new Producto("XBOX One", 320));
+        listaProductos.add(new Producto("Wii U", 249.95));
+        listaProductos.add(new Producto("PC Master Race", 800));
+        listaProductos.add(new Producto("Play Station  Pro", 399.95));
+        listaProductos.add(new Producto("XBOX Scorpio", 599.95));
+        listaProductos.add(new Producto("Play Station VR", 399.95));
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try  {
-            request.getSession().setAttribute("listaProductos", this.listaDeProductos);
+        try {
+            request.getSession().setAttribute("listaProductos", this.listaProductos);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
+
+            for (Producto p : listaProductos) {
+                if (p.getNombre().equalsIgnoreCase(request.getParameter("lista"))) {
+                    p.setCantidad(p.getCantidad() + 1);
+                }
+            }
         } finally {
-            
+
         }
     }
 
