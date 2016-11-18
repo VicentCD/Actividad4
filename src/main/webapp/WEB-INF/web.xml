@@ -8,9 +8,17 @@
         <servlet-name>CarritoServlet</servlet-name>
         <servlet-class>servlets.CarritoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RealizarCompra</servlet-name>
+        <servlet-class>servlets.RealizarCompra</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CarritoServlet</servlet-name>
         <url-pattern>/CarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RealizarCompra</servlet-name>
+        <url-pattern>/RealizarCompra</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

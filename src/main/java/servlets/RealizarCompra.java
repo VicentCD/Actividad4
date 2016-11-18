@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alumno
  */
-public class CarritoServlet extends HttpServlet {
+public class RealizarCompra extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,35 +29,27 @@ public class CarritoServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    ArrayList<Producto> listaProductos = new ArrayList();
-
-    @Override
-    public void init()
-            throws ServletException {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        listaProductos.add(new Producto("Play Station 4", 299.95));
-        listaProductos.add(new Producto("XBOX One", 320));
-        listaProductos.add(new Producto("Wii U", 249.95));
-        listaProductos.add(new Producto("PC Master Race", 800));
-        listaProductos.add(new Producto("Play Station Pro", 399.95));
-        listaProductos.add(new Producto("XBOX Scorpio", 599.95));
-        listaProductos.add(new Producto("Play Station VR", 399.95));
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            double precioFinal = 0;
+
+            ArrayList<Producto> listaProductos = (ArrayList) request.getSession().getAttribute("listaProductos");
+            ArrayList<Producto> listaFactura = new ArrayList();
 
             for (Producto p : listaProductos) {
-                if (p.getNombre().equalsIgnoreCase(request.getParameter("selector_producto"))) {
-                    p.setCantidad(p.getCantidad() + 1);
-
+                if (p.getCantidad() != 0) {
+                    listaFactura.add(p);
+                    precioFinal = precioFinal + (p.getPrecio() * p.getCantidad());
                 }
-
             }
+            System.out.print(precioFinal);
 
-            request.getSession().setAttribute("listaProductos", this.listaProductos);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getSession().setAttribute("precioFinal", precioFinal);
+            request.getSession().setAttribute("listaFactura", listaFactura);
+
+            request.getRequestDispatcher("/factura.jsp").forward(request, response);
         } finally {
 
         }
